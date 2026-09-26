@@ -1,0 +1,7 @@
+{
+  "name": "post-save-lint-typecheck",
+  "trigger": "PostFileSave",
+  "description": "Convenience only — GitHub branch protection remains the real gate.",
+  "match": ["**/*.py", "**/*.ts", "**/*.js"],
+  "run": "echo 'TODO: wire ruff/eslint + typecheck for the edited file'"
+}

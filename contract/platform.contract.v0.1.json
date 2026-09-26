@@ -1,0 +1,72 @@
+{
+  "$schema": "https://1145cx.dev/schemas/platform.contract.v0.1.json",
+  "contractVersion": "0.1.0",
+  "generatedBy": "stage0-spine",
+  "frozenDecisions": [
+    { "id": "DEC-19SEP", "text": "REST control plane stays; no GraphQL." },
+    { "id": "DEC-TELNYX", "text": "Telnyx is default carrier; Twilio is failover behind one carrier interface. Amazon Connect stays out of the DID path." }
+  ],
+  "meta": {
+    "targetRequirementCount": 110,
+    "targetVerifierCount": 206,
+    "note": "SKELETON. Stage 0 commits the shape; requirement IDs and verifier references are populated by the contract owner via approved contract-diff PRs only. Generated types and verifiers are CI-produced, never hand-edited."
+  },
+  "lanes": {
+    "infra": "infra/",
+    "api": "services/api + services/onboarding",
+    "telephony": "services/telephony",
+    "voice": "services/voice",
+    "agentcore": "services/agentcore",
+    "harness": "tests/ + contract/ tooling + .github/workflows"
+  },
+  "seams": [
+    "contract/platform.contract.v0.1.json",
+    "openapi/control-plane.v0.1.yaml",
+    "contract/interfaces/carrier.interface.md",
+    "contract/interfaces/voice-session.interface.md",
+    "tools/conformance (generated verifier package)"
+  ],
+  "requirements": [
+    {
+      "id": "REQ-0001",
+      "lane": "api",
+      "statement": "Every REST endpoint verifies the Cognito tenant claim before serving.",
+      "verifiers": ["VER-0001-tenant-claim-present", "VER-0002-cross-tenant-denied"],
+      "status": "declared"
+    },
+    {
+      "id": "REQ-0002",
+      "lane": "telephony",
+      "statement": "Inbound call webhook resolves the tenant from the dialed number.",
+      "verifiers": ["VER-0003-tenant-from-did"],
+      "status": "declared"
+    },
+    {
+      "id": "REQ-0003",
+      "lane": "voice",
+      "statement": "A VoiceSession is swappable and scorable behind the interface.",
+      "verifiers": ["VER-0004-session-interface-conformance", "VER-0005-eval-score-recorded"],
+      "status": "declared"
+    },
+    {
+      "id": "REQ-0004",
+      "lane": "agentcore",
+      "statement": "Owner copilot tools confirm before any mutation.",
+      "verifiers": ["VER-0006-confirm-before-mutate", "VER-0007-unapproved-mutation-blocked"],
+      "status": "declared"
+    },
+    {
+      "id": "REQ-0005",
+      "lane": "onboarding",
+      "statement": "Tenant onboarding reaches go-live in under 10 minutes and ends with a demo call to the owner's phone.",
+      "verifiers": ["VER-0008-onboarding-under-10min", "VER-0009-demo-call-placed"],
+      "status": "declared"
+    }
+  ],
+  "qualityRatchet": {
+    "coverageFloorPct": 0,
+    "mutationScoreMinPct": 0,
+    "verifierPassShareMinPct": 0,
+    "note": "Floors only move UP. Lowering any is a protected-file change requiring owner review."
+  }
+}

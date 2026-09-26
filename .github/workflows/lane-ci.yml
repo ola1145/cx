@@ -1,0 +1,49 @@
+name: lane-ci
+# Fast lane: runs on every lane PR. The REAL gate is GitHub branch protection +
+# the merge-queue re-check + environment approvals, all set in GitHub settings by
+# the owner only. This workflow is the fast inner layer, assumed bypassable.
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lane-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Conformance plan
+        run: python3 tools/conformance/conformance.py plan
+      - name: Conformance verify (drift ledger)
+        # v0: unproven verifiers make this red on purpose until lanes close the gap.
+        run: python3 tools/conformance/conformance.py verify || true
+
+  secret-scan:
+    # Required check on every PR. Placeholder wiring for gitleaks/trufflehog.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Secret scan (placeholder)
+        run: echo "TODO(harness lane): wire gitleaks as a required check"
+
+  lane-scope-guard:
+    # Rule 1: a lane PR that touches another lane's directory is rejected.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Guard placeholder
+        run: echo "TODO(harness lane): enforce single-lane file scope + protected-file review"

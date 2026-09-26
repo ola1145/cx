@@ -1,0 +1,11 @@
+# Keep secrets and customer PII out of agent context (plan: Secrets + data hygiene).
+.env
+.env.*
+*.pem
+*.key
+**/credentials
+**/*secret*
+**/aws-exports.*
+# Call recordings and transcripts are customer PII — never in agent context.
+**/recordings/
+**/transcripts/

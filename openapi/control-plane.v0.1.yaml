@@ -1,0 +1,85 @@
+openapi: 3.1.0
+info:
+  title: 1145cx Control Plane
+  version: 0.1.0
+  description: >
+    SKELETON REST control plane for the 1145cx platform backend.
+    REST stays; no GraphQL (decided 19 Sep). This spec is a PROTECTED seam:
+    after Stage 0 it changes only through an owner-approved contract-diff PR.
+    Generated types are CI-produced, never hand-edited.
+servers:
+  - url: https://api.example.invalid/v0
+    description: Placeholder; per-lane ephemeral stacks inject their own base URL.
+security:
+  - cognitoTenant: []
+components:
+  securitySchemes:
+    cognitoTenant:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Cognito tenant-scoped authorizer. Tenant claim verified on every endpoint.
+  schemas:
+    Error:
+      type: object
+      required: [code, message]
+      properties:
+        code: { type: string }
+        message: { type: string }
+    Tenant:
+      type: object
+      required: [tenantId, status]
+      properties:
+        tenantId: { type: string }
+        status: { type: string, enum: [provisioning, active, suspended] }
+    OnboardingRun:
+      type: object
+      required: [runId, tenantId, state]
+      properties:
+        runId: { type: string }
+        tenantId: { type: string }
+        state: { type: string, enum: [started, provisioning_did, configuring_agent, demo_call, complete, failed] }
+paths:
+  /health:
+    get:
+      operationId: getHealth
+      security: []
+      summary: Liveness probe.
+      responses:
+        "200":
+          description: OK
+  /tenants:
+    post:
+      operationId: createTenant
+      summary: Begin tenant onboarding (Step Functions machine, sub-10-minute go-live).
+      responses:
+        "202":
+          description: Onboarding accepted.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/OnboardingRun" }
+        "401":
+          description: Missing or invalid tenant claim.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Error" }
+  /tenants/{tenantId}:
+    get:
+      operationId: getTenant
+      summary: Read tenant state (tenant-scoped).
+      parameters:
+        - name: tenantId
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Tenant.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Tenant" }
+        "403":
+          description: Cross-tenant access denied.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Error" }

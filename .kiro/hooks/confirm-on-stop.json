@@ -1,0 +1,6 @@
+{
+  "name": "confirm-on-stop",
+  "trigger": "Stop",
+  "description": "Ask before a session finishes. Convenience, not enforcement.",
+  "run": "echo 'Session finishing — confirm work committed to a lane branch, not main.'"
+}
