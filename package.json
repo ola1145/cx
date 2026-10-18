@@ -1,0 +1,10 @@
+{
+  "name": "1145cx-onboarding",
+  "private": true,
+  "devDependencies": {
+    "aws-cdk": "2.177.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

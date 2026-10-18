@@ -1,0 +1,94 @@
+{
+  "$defs": {
+    "DeliveryChannel": {
+      "enum": [
+        "whatsapp",
+        "telegram",
+        "web",
+        "voice"
+      ],
+      "title": "DeliveryChannel",
+      "type": "string"
+    },
+    "DeliveryPayload": {
+      "properties": {
+        "text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Text"
+        },
+        "media_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Media Url"
+        },
+        "template_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Template Name"
+        },
+        "template_params": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Template Params",
+          "type": "object"
+        }
+      },
+      "title": "DeliveryPayload",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "session_id": {
+      "title": "Session Id",
+      "type": "string"
+    },
+    "payload": {
+      "$ref": "#/$defs/DeliveryPayload"
+    },
+    "channel": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/DeliveryChannel"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "metadata": {
+      "additionalProperties": true,
+      "title": "Metadata",
+      "type": "object"
+    }
+  },
+  "required": [
+    "session_id",
+    "payload"
+  ],
+  "title": "DeliveryRequest",
+  "type": "object"
+}

@@ -1,0 +1,60 @@
+{
+  "$defs": {
+    "DeliveryChannel": {
+      "enum": [
+        "whatsapp",
+        "telegram",
+        "web",
+        "voice"
+      ],
+      "title": "DeliveryChannel",
+      "type": "string"
+    }
+  },
+  "properties": {
+    "success": {
+      "title": "Success",
+      "type": "boolean"
+    },
+    "channel_used": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/DeliveryChannel"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "provider_msg_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Provider Msg Id"
+    },
+    "error": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Error"
+    }
+  },
+  "required": [
+    "success"
+  ],
+  "title": "DeliveryResult",
+  "type": "object"
+}

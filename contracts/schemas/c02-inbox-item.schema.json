@@ -1,0 +1,77 @@
+{
+  "$defs": {
+    "InboxState": {
+      "enum": [
+        "queued",
+        "consumed"
+      ],
+      "title": "InboxState",
+      "type": "string"
+    }
+  },
+  "properties": {
+    "session_id": {
+      "title": "Session Id",
+      "type": "string"
+    },
+    "ts_msg_id": {
+      "title": "Ts Msg Id",
+      "type": "string"
+    },
+    "channel": {
+      "title": "Channel",
+      "type": "string"
+    },
+    "kind": {
+      "default": "text",
+      "title": "Kind",
+      "type": "string"
+    },
+    "text": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Text"
+    },
+    "media_key": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Media Key"
+    },
+    "state": {
+      "$ref": "#/$defs/InboxState",
+      "default": "queued"
+    },
+    "received_at": {
+      "format": "date-time",
+      "title": "Received At",
+      "type": "string"
+    },
+    "source": {
+      "default": "owner",
+      "title": "Source",
+      "type": "string"
+    }
+  },
+  "required": [
+    "session_id",
+    "ts_msg_id",
+    "channel",
+    "received_at"
+  ],
+  "title": "InboxItem",
+  "type": "object"
+}

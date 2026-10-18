@@ -1,0 +1,109 @@
+{
+  "$defs": {
+    "ProfileFact": {
+      "properties": {
+        "field_path": {
+          "title": "Field Path",
+          "type": "string"
+        },
+        "value": {
+          "title": "Value"
+        },
+        "confidence": {
+          "title": "Confidence",
+          "type": "number"
+        },
+        "quote": {
+          "title": "Quote",
+          "type": "string"
+        },
+        "source_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Url"
+        },
+        "source_type": {
+          "default": "web",
+          "title": "Source Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "field_path",
+        "value",
+        "confidence",
+        "quote"
+      ],
+      "title": "ProfileFact",
+      "type": "object"
+    },
+    "ProfileStatus": {
+      "enum": [
+        "ready",
+        "partial",
+        "failed"
+      ],
+      "title": "ProfileStatus",
+      "type": "string"
+    }
+  },
+  "properties": {
+    "session_id": {
+      "title": "Session Id",
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/ProfileStatus",
+      "default": "partial"
+    },
+    "facts": {
+      "items": {
+        "$ref": "#/$defs/ProfileFact"
+      },
+      "title": "Facts",
+      "type": "array"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "elapsed_seconds": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Elapsed Seconds"
+    },
+    "error": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Error"
+    }
+  },
+  "required": [
+    "session_id",
+    "created_at"
+  ],
+  "title": "BusinessProfile",
+  "type": "object"
+}

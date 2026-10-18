@@ -1,0 +1,94 @@
+{
+  "$defs": {
+    "VerifyMethod": {
+      "enum": [
+        "whatsapp_possession",
+        "telegram_contact",
+        "callback_code"
+      ],
+      "title": "VerifyMethod",
+      "type": "string"
+    }
+  },
+  "properties": {
+    "channel_address": {
+      "title": "Channel Address",
+      "type": "string"
+    },
+    "session_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Session Id"
+    },
+    "tenant_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Tenant Id"
+    },
+    "verified": {
+      "default": false,
+      "title": "Verified",
+      "type": "boolean"
+    },
+    "verify_method": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/VerifyMethod"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "verified_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Verified At"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "expires_at": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Expires At"
+    }
+  },
+  "required": [
+    "channel_address"
+  ],
+  "title": "IdentityRecord",
+  "type": "object"
+}

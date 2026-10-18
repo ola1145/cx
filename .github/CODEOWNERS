@@ -1,0 +1,15 @@
+* @ola1145
+/contracts/ @ola1145
+/lib/ @ola1145
+/mocks/ @ola1145
+/infra/ @ola1145
+/ws1-channels/ @ola1145
+/ws2-spine/ @ola1145
+/ws3-identity/ @ola1145
+/ws4-billing/ @ola1145
+/ws5-legal/ @ola1145
+/ws6-research/ @ola1145
+/ws7-numbers/ @ola1145
+/ws8-tenant/ @ola1145
+/ws9-data/ @ola1145
+/ws10-ops/ @ola1145

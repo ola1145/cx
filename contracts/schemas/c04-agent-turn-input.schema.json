@@ -1,0 +1,682 @@
+{
+  "$defs": {
+    "Address": {
+      "properties": {
+        "street": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Street"
+        },
+        "city": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "City"
+        },
+        "state": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "State"
+        },
+        "zip_code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Zip Code"
+        },
+        "country": {
+          "default": "US",
+          "title": "Country",
+          "type": "string"
+        },
+        "visibility": {
+          "$ref": "#/$defs/AddressVisibility",
+          "default": "public"
+        }
+      },
+      "title": "Address",
+      "type": "object"
+    },
+    "AddressVisibility": {
+      "enum": [
+        "public",
+        "private",
+        "service_area"
+      ],
+      "title": "AddressVisibility",
+      "type": "string"
+    },
+    "InboxItem": {
+      "properties": {
+        "session_id": {
+          "title": "Session Id",
+          "type": "string"
+        },
+        "ts_msg_id": {
+          "title": "Ts Msg Id",
+          "type": "string"
+        },
+        "channel": {
+          "title": "Channel",
+          "type": "string"
+        },
+        "kind": {
+          "default": "text",
+          "title": "Kind",
+          "type": "string"
+        },
+        "text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Text"
+        },
+        "media_key": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Media Key"
+        },
+        "state": {
+          "$ref": "#/$defs/InboxState",
+          "default": "queued"
+        },
+        "received_at": {
+          "format": "date-time",
+          "title": "Received At",
+          "type": "string"
+        },
+        "source": {
+          "default": "owner",
+          "title": "Source",
+          "type": "string"
+        }
+      },
+      "required": [
+        "session_id",
+        "ts_msg_id",
+        "channel",
+        "received_at"
+      ],
+      "title": "InboxItem",
+      "type": "object"
+    },
+    "InboxState": {
+      "enum": [
+        "queued",
+        "consumed"
+      ],
+      "title": "InboxState",
+      "type": "string"
+    },
+    "OnboardingSlots": {
+      "properties": {
+        "business_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Business Name"
+        },
+        "vertical": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Vertical"
+        },
+        "owner_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Owner Name"
+        },
+        "owner_mobile": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Owner Mobile"
+        },
+        "services": {
+          "items": {
+            "$ref": "#/$defs/Service"
+          },
+          "title": "Services",
+          "type": "array"
+        },
+        "hours": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ServiceHours"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "timezone": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Timezone"
+        },
+        "greeting_tone": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Greeting Tone"
+        },
+        "address": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Address"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "email": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Email"
+        },
+        "languages": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Languages",
+          "type": "array"
+        },
+        "escalation_number": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Escalation Number"
+        },
+        "staff": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Staff",
+          "type": "array"
+        },
+        "booking_rules": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Booking Rules"
+        },
+        "cancellation_policy": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cancellation Policy"
+        },
+        "payment_methods": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Payment Methods",
+          "type": "array"
+        },
+        "calendar_provider": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Calendar Provider"
+        },
+        "website": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Website"
+        },
+        "socials": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Socials",
+          "type": "object"
+        }
+      },
+      "title": "OnboardingSlots",
+      "type": "object"
+    },
+    "PriceType": {
+      "enum": [
+        "fixed",
+        "from",
+        "range",
+        "quote"
+      ],
+      "title": "PriceType",
+      "type": "string"
+    },
+    "Service": {
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "category": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Category"
+        },
+        "price_type": {
+          "$ref": "#/$defs/PriceType",
+          "default": "fixed"
+        },
+        "price_min": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Price Min"
+        },
+        "price_max": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Price Max"
+        },
+        "duration_minutes": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Duration Minutes"
+        },
+        "add_ons": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Add Ons",
+          "type": "array"
+        },
+        "deposit": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Deposit"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "Service",
+      "type": "object"
+    },
+    "ServiceHours": {
+      "description": "Open intervals per day. E.g. {\"monday\": [[\"09:00\",\"17:00\"]]}",
+      "properties": {
+        "monday": {
+          "items": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "title": "Monday",
+          "type": "array"
+        },
+        "tuesday": {
+          "items": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "title": "Tuesday",
+          "type": "array"
+        },
+        "wednesday": {
+          "items": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "title": "Wednesday",
+          "type": "array"
+        },
+        "thursday": {
+          "items": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "title": "Thursday",
+          "type": "array"
+        },
+        "friday": {
+          "items": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "title": "Friday",
+          "type": "array"
+        },
+        "saturday": {
+          "items": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "title": "Saturday",
+          "type": "array"
+        },
+        "sunday": {
+          "items": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "title": "Sunday",
+          "type": "array"
+        },
+        "exceptions": {
+          "additionalProperties": {
+            "items": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "type": "array"
+          },
+          "title": "Exceptions",
+          "type": "object"
+        }
+      },
+      "title": "ServiceHours",
+      "type": "object"
+    },
+    "TurnRecord": {
+      "properties": {
+        "session_id": {
+          "title": "Session Id",
+          "type": "string"
+        },
+        "turn_seq": {
+          "title": "Turn Seq",
+          "type": "string"
+        },
+        "speaker": {
+          "$ref": "#/$defs/TurnSpeaker"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "channel": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Channel"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        }
+      },
+      "required": [
+        "session_id",
+        "turn_seq",
+        "speaker",
+        "text",
+        "created_at"
+      ],
+      "title": "TurnRecord",
+      "type": "object"
+    },
+    "TurnSpeaker": {
+      "enum": [
+        "owner",
+        "agent",
+        "event"
+      ],
+      "title": "TurnSpeaker",
+      "type": "string"
+    }
+  },
+  "properties": {
+    "session_id": {
+      "title": "Session Id",
+      "type": "string"
+    },
+    "inbox_items": {
+      "items": {
+        "$ref": "#/$defs/InboxItem"
+      },
+      "title": "Inbox Items",
+      "type": "array"
+    },
+    "last_turns": {
+      "items": {
+        "$ref": "#/$defs/TurnRecord"
+      },
+      "title": "Last Turns",
+      "type": "array"
+    },
+    "slots": {
+      "$ref": "#/$defs/OnboardingSlots"
+    },
+    "profile_hints": {
+      "additionalProperties": true,
+      "title": "Profile Hints",
+      "type": "object"
+    },
+    "last_validation_errors": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Last Validation Errors",
+      "type": "array"
+    },
+    "channel_rules": {
+      "additionalProperties": true,
+      "title": "Channel Rules",
+      "type": "object"
+    },
+    "owner_language": {
+      "default": "en",
+      "title": "Owner Language",
+      "type": "string"
+    },
+    "events": {
+      "items": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Events",
+      "type": "array"
+    }
+  },
+  "required": [
+    "session_id",
+    "inbox_items",
+    "slots"
+  ],
+  "title": "AgentTurnInput",
+  "type": "object"
+}

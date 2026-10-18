@@ -1,0 +1,90 @@
+{
+  "$defs": {
+    "NumberProvider": {
+      "enum": [
+        "telnyx",
+        "twilio"
+      ],
+      "title": "NumberProvider",
+      "type": "string"
+    },
+    "OrderState": {
+      "enum": [
+        "ordering",
+        "ordered",
+        "assigning",
+        "assigned",
+        "failed",
+        "released"
+      ],
+      "title": "OrderState",
+      "type": "string"
+    }
+  },
+  "properties": {
+    "tenant_id": {
+      "title": "Tenant Id",
+      "type": "string"
+    },
+    "reference": {
+      "title": "Reference",
+      "type": "string"
+    },
+    "provider": {
+      "$ref": "#/$defs/NumberProvider"
+    },
+    "e164": {
+      "title": "E164",
+      "type": "string"
+    },
+    "state": {
+      "$ref": "#/$defs/OrderState",
+      "default": "ordering"
+    },
+    "provider_order_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Provider Order Id"
+    },
+    "reservation_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Reservation Ids",
+      "type": "array"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "last_reconciled_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Last Reconciled At"
+    }
+  },
+  "required": [
+    "tenant_id",
+    "reference",
+    "provider",
+    "e164"
+  ],
+  "title": "NumberOrder",
+  "type": "object"
+}

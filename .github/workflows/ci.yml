@@ -1,0 +1,25 @@
+name: CI
+on:
+  pull_request:
+    branches: [main]
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '20'}
+      - uses: astral-sh/setup-uv@v5
+        with: {python-version: '3.12'}
+      - run: uv sync --all-packages
+      - run: npm ci
+      - run: uv run ruff check .
+      - run: uv run ruff format --check .
+      - run: uv run pytest lib/src/cx_lib/tests/ tests/contract/ -x --tb=short
+      - run: uv run python tools/export_schemas.py --check
+      - name: CDK synth (sandbox only, no creds needed)
+        run: cd infra && npx cdk synth --strict -c env=sandbox --quiet
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cdk-templates
+          path: infra/cdk.out/

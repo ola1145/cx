@@ -1,0 +1,434 @@
+{
+  "$defs": {
+    "Address": {
+      "properties": {
+        "street": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Street"
+        },
+        "city": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "City"
+        },
+        "state": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "State"
+        },
+        "zip_code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Zip Code"
+        },
+        "country": {
+          "default": "US",
+          "title": "Country",
+          "type": "string"
+        },
+        "visibility": {
+          "$ref": "#/$defs/AddressVisibility",
+          "default": "public"
+        }
+      },
+      "title": "Address",
+      "type": "object"
+    },
+    "AddressVisibility": {
+      "enum": [
+        "public",
+        "private",
+        "service_area"
+      ],
+      "title": "AddressVisibility",
+      "type": "string"
+    },
+    "EscalationConfig": {
+      "properties": {
+        "phone": {
+          "title": "Phone",
+          "type": "string"
+        },
+        "instructions": {
+          "default": "",
+          "title": "Instructions",
+          "type": "string"
+        },
+        "always_on": {
+          "default": false,
+          "title": "Always On",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "phone"
+      ],
+      "title": "EscalationConfig",
+      "type": "object"
+    },
+    "PriceType": {
+      "enum": [
+        "fixed",
+        "from",
+        "range",
+        "quote"
+      ],
+      "title": "PriceType",
+      "type": "string"
+    },
+    "Service": {
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "category": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Category"
+        },
+        "price_type": {
+          "$ref": "#/$defs/PriceType",
+          "default": "fixed"
+        },
+        "price_min": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Price Min"
+        },
+        "price_max": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Price Max"
+        },
+        "duration_minutes": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Duration Minutes"
+        },
+        "add_ons": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Add Ons",
+          "type": "array"
+        },
+        "deposit": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Deposit"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "Service",
+      "type": "object"
+    },
+    "ServiceHours": {
+      "description": "Open intervals per day. E.g. {\"monday\": [[\"09:00\",\"17:00\"]]}",
+      "properties": {
+        "monday": {
+          "items": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "title": "Monday",
+          "type": "array"
+        },
+        "tuesday": {
+          "items": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "title": "Tuesday",
+          "type": "array"
+        },
+        "wednesday": {
+          "items": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "title": "Wednesday",
+          "type": "array"
+        },
+        "thursday": {
+          "items": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "title": "Thursday",
+          "type": "array"
+        },
+        "friday": {
+          "items": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "title": "Friday",
+          "type": "array"
+        },
+        "saturday": {
+          "items": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "title": "Saturday",
+          "type": "array"
+        },
+        "sunday": {
+          "items": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "title": "Sunday",
+          "type": "array"
+        },
+        "exceptions": {
+          "additionalProperties": {
+            "items": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "type": "array"
+          },
+          "title": "Exceptions",
+          "type": "object"
+        }
+      },
+      "title": "ServiceHours",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "tenant_id": {
+      "title": "Tenant Id",
+      "type": "string"
+    },
+    "business_name": {
+      "title": "Business Name",
+      "type": "string"
+    },
+    "vertical": {
+      "title": "Vertical",
+      "type": "string"
+    },
+    "owner_name": {
+      "title": "Owner Name",
+      "type": "string"
+    },
+    "owner_mobile": {
+      "title": "Owner Mobile",
+      "type": "string"
+    },
+    "services": {
+      "items": {
+        "$ref": "#/$defs/Service"
+      },
+      "title": "Services",
+      "type": "array"
+    },
+    "hours": {
+      "$ref": "#/$defs/ServiceHours"
+    },
+    "timezone": {
+      "title": "Timezone",
+      "type": "string"
+    },
+    "greeting": {
+      "title": "Greeting",
+      "type": "string"
+    },
+    "tone": {
+      "default": "professional",
+      "title": "Tone",
+      "type": "string"
+    },
+    "languages": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Languages",
+      "type": "array"
+    },
+    "address": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Address"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "escalation": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/EscalationConfig"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "approved_facts": {
+      "additionalProperties": true,
+      "title": "Approved Facts",
+      "type": "object"
+    },
+    "research_subject_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Research Subject Id"
+    },
+    "day_one_mode": {
+      "default": true,
+      "title": "Day One Mode",
+      "type": "boolean"
+    },
+    "number_e164": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Number E164"
+    },
+    "ai_disclosure": {
+      "default": "You've reached the AI assistant for {business_name}.",
+      "title": "Ai Disclosure",
+      "type": "string"
+    },
+    "recording_notice": {
+      "default": "This call may be recorded.",
+      "title": "Recording Notice",
+      "type": "string"
+    }
+  },
+  "required": [
+    "tenant_id",
+    "business_name",
+    "vertical",
+    "owner_name",
+    "owner_mobile",
+    "hours",
+    "timezone",
+    "greeting"
+  ],
+  "title": "TenantConfig",
+  "type": "object"
+}

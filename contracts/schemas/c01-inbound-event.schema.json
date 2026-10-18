@@ -1,0 +1,96 @@
+{
+  "$defs": {
+    "Channel": {
+      "enum": [
+        "whatsapp",
+        "telegram",
+        "web",
+        "voice"
+      ],
+      "title": "Channel",
+      "type": "string"
+    },
+    "MessageKind": {
+      "enum": [
+        "text",
+        "image",
+        "audio",
+        "contact",
+        "other"
+      ],
+      "title": "MessageKind",
+      "type": "string"
+    }
+  },
+  "properties": {
+    "channel": {
+      "$ref": "#/$defs/Channel"
+    },
+    "address": {
+      "description": "Sender address: E.164 phone or Telegram user ID",
+      "title": "Address",
+      "type": "string"
+    },
+    "session_id": {
+      "title": "Session Id",
+      "type": "string"
+    },
+    "kind": {
+      "$ref": "#/$defs/MessageKind",
+      "default": "text"
+    },
+    "text": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Text"
+    },
+    "media_key": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Media Key"
+    },
+    "msg_id": {
+      "title": "Msg Id",
+      "type": "string"
+    },
+    "received_at": {
+      "format": "date-time",
+      "title": "Received At",
+      "type": "string"
+    },
+    "source": {
+      "default": "owner",
+      "enum": [
+        "owner",
+        "image",
+        "audio",
+        "event"
+      ],
+      "title": "Source",
+      "type": "string"
+    }
+  },
+  "required": [
+    "channel",
+    "address",
+    "session_id",
+    "msg_id",
+    "received_at"
+  ],
+  "title": "InboundEvent",
+  "type": "object"
+}

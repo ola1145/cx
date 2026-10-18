@@ -1,0 +1,5 @@
+{
+  "tenant_id": "ten_abc123",
+  "billing_status": "unknown_status",
+  "card_on_file": true
+}

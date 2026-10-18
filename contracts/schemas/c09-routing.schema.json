@@ -1,0 +1,54 @@
+{
+  "$defs": {
+    "NumberProvider": {
+      "enum": [
+        "telnyx",
+        "twilio"
+      ],
+      "title": "NumberProvider",
+      "type": "string"
+    }
+  },
+  "properties": {
+    "e164": {
+      "title": "E164",
+      "type": "string"
+    },
+    "tenant_id": {
+      "title": "Tenant Id",
+      "type": "string"
+    },
+    "provider": {
+      "$ref": "#/$defs/NumberProvider"
+    },
+    "provider_number_id": {
+      "title": "Provider Number Id",
+      "type": "string"
+    },
+    "voice_connection_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Voice Connection Id"
+    },
+    "assigned_at": {
+      "format": "date-time",
+      "title": "Assigned At",
+      "type": "string"
+    }
+  },
+  "required": [
+    "e164",
+    "tenant_id",
+    "provider",
+    "provider_number_id"
+  ],
+  "title": "RoutingRecord",
+  "type": "object"
+}

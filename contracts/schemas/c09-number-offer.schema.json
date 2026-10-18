@@ -1,0 +1,105 @@
+{
+  "$defs": {
+    "NumberProvider": {
+      "enum": [
+        "telnyx",
+        "twilio"
+      ],
+      "title": "NumberProvider",
+      "type": "string"
+    }
+  },
+  "properties": {
+    "e164": {
+      "title": "E164",
+      "type": "string"
+    },
+    "area_code": {
+      "title": "Area Code",
+      "type": "string"
+    },
+    "city": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "City"
+    },
+    "state": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "State"
+    },
+    "monthly_usd": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "string"
+        }
+      ],
+      "title": "Monthly Usd"
+    },
+    "setup_usd": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "string"
+        }
+      ],
+      "default": "0",
+      "title": "Setup Usd"
+    },
+    "provider": {
+      "$ref": "#/$defs/NumberProvider",
+      "default": "telnyx"
+    },
+    "reservation_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Reservation Id"
+    },
+    "expires_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Expires At"
+    }
+  },
+  "required": [
+    "e164",
+    "area_code",
+    "monthly_usd"
+  ],
+  "title": "NumberOffer",
+  "type": "object"
+}

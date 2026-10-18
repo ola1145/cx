@@ -1,0 +1,61 @@
+{
+  "$defs": {
+    "TurnSpeaker": {
+      "enum": [
+        "owner",
+        "agent",
+        "event"
+      ],
+      "title": "TurnSpeaker",
+      "type": "string"
+    }
+  },
+  "properties": {
+    "session_id": {
+      "title": "Session Id",
+      "type": "string"
+    },
+    "turn_seq": {
+      "title": "Turn Seq",
+      "type": "string"
+    },
+    "speaker": {
+      "$ref": "#/$defs/TurnSpeaker"
+    },
+    "text": {
+      "title": "Text",
+      "type": "string"
+    },
+    "channel": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Channel"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "metadata": {
+      "additionalProperties": true,
+      "title": "Metadata",
+      "type": "object"
+    }
+  },
+  "required": [
+    "session_id",
+    "turn_seq",
+    "speaker",
+    "text",
+    "created_at"
+  ],
+  "title": "TurnRecord",
+  "type": "object"
+}

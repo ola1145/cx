@@ -1,0 +1,100 @@
+{
+  "$defs": {
+    "BillingStatus": {
+      "enum": [
+        "none",
+        "setup",
+        "trialing",
+        "active",
+        "past_due",
+        "lapsed",
+        "canceled"
+      ],
+      "title": "BillingStatus",
+      "type": "string"
+    }
+  },
+  "properties": {
+    "tenant_id": {
+      "title": "Tenant Id",
+      "type": "string"
+    },
+    "stripe_customer_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Stripe Customer Id"
+    },
+    "stripe_subscription_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Stripe Subscription Id"
+    },
+    "billing_status": {
+      "$ref": "#/$defs/BillingStatus",
+      "default": "none"
+    },
+    "card_on_file": {
+      "default": false,
+      "title": "Card On File",
+      "type": "boolean"
+    },
+    "trial_end": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Trial End"
+    },
+    "current_period_end": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Current Period End"
+    },
+    "updated_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Updated At"
+    }
+  },
+  "required": [
+    "tenant_id"
+  ],
+  "title": "BillingRecord",
+  "type": "object"
+}

@@ -1,0 +1,80 @@
+{
+  "$defs": {
+    "AgentIntent": {
+      "enum": [
+        "ask",
+        "readback",
+        "confirm",
+        "exit"
+      ],
+      "title": "AgentIntent",
+      "type": "string"
+    },
+    "SlotProposal": {
+      "properties": {
+        "field_path": {
+          "title": "Field Path",
+          "type": "string"
+        },
+        "value": {
+          "title": "Value"
+        },
+        "confidence": {
+          "default": 1.0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "evidence": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Evidence"
+        }
+      },
+      "required": [
+        "field_path",
+        "value"
+      ],
+      "title": "SlotProposal",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "reply": {
+      "title": "Reply",
+      "type": "string"
+    },
+    "slot_proposals": {
+      "items": {
+        "$ref": "#/$defs/SlotProposal"
+      },
+      "title": "Slot Proposals",
+      "type": "array"
+    },
+    "intent": {
+      "$ref": "#/$defs/AgentIntent",
+      "default": "ask"
+    },
+    "language": {
+      "default": "en",
+      "title": "Language",
+      "type": "string"
+    },
+    "metadata": {
+      "additionalProperties": true,
+      "title": "Metadata",
+      "type": "object"
+    }
+  },
+  "required": [
+    "reply"
+  ],
+  "title": "AgentTurnOutput",
+  "type": "object"
+}

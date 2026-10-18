@@ -1,0 +1,62 @@
+{
+  "$defs": {
+    "OpsEventKind": {
+      "enum": [
+        "session_failed",
+        "session_started",
+        "session_live",
+        "number_pending",
+        "number_assigned",
+        "billing_lapsed",
+        "research_failed",
+        "sweeper_restarted"
+      ],
+      "title": "OpsEventKind",
+      "type": "string"
+    }
+  },
+  "properties": {
+    "kind": {
+      "$ref": "#/$defs/OpsEventKind"
+    },
+    "session_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Session Id"
+    },
+    "tenant_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Tenant Id"
+    },
+    "detail": {
+      "additionalProperties": true,
+      "title": "Detail",
+      "type": "object"
+    },
+    "emitted_at": {
+      "format": "date-time",
+      "title": "Emitted At",
+      "type": "string"
+    }
+  },
+  "required": [
+    "kind"
+  ],
+  "title": "OpsEvent",
+  "type": "object"
+}

@@ -1,0 +1,107 @@
+{
+  "$defs": {
+    "ConsentType": {
+      "enum": [
+        "terms",
+        "privacy",
+        "research",
+        "calls_and_alerts",
+        "marketing"
+      ],
+      "title": "ConsentType",
+      "type": "string"
+    }
+  },
+  "properties": {
+    "subject_id": {
+      "title": "Subject Id",
+      "type": "string"
+    },
+    "type_ts": {
+      "title": "Type Ts",
+      "type": "string"
+    },
+    "consent_type": {
+      "$ref": "#/$defs/ConsentType"
+    },
+    "version": {
+      "title": "Version",
+      "type": "string"
+    },
+    "content_hash": {
+      "title": "Content Hash",
+      "type": "string"
+    },
+    "prompt_shown": {
+      "title": "Prompt Shown",
+      "type": "string"
+    },
+    "reply": {
+      "title": "Reply",
+      "type": "string"
+    },
+    "channel": {
+      "title": "Channel",
+      "type": "string"
+    },
+    "msg_id": {
+      "title": "Msg Id",
+      "type": "string"
+    },
+    "recorded_at": {
+      "format": "date-time",
+      "title": "Recorded At",
+      "type": "string"
+    },
+    "withdrawn_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Withdrawn At"
+    },
+    "ip_address": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Ip Address"
+    },
+    "user_agent": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "User Agent"
+    }
+  },
+  "required": [
+    "subject_id",
+    "type_ts",
+    "consent_type",
+    "version",
+    "content_hash",
+    "prompt_shown",
+    "reply",
+    "channel",
+    "msg_id"
+  ],
+  "title": "ConsentRecord",
+  "type": "object"
+}
