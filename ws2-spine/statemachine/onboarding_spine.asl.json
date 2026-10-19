@@ -1,0 +1,134 @@
+{
+  "Comment": "1145cx onboarding spine — SP-1 through SP-11",
+  "StartAt": "ReadInbox",
+  "States": {
+    "ReadInbox": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${TurnFunctionArn}",
+        "Payload.$": "$"
+      },
+      "ResultPath": "$.turnResult",
+      "Next": "CheckIntent",
+      "Retry": [{"ErrorEquals": ["Lambda.ServiceException","Lambda.TooManyRequestsException"],"IntervalSeconds": 2,"MaxAttempts": 2,"BackoffRate": 2}],
+      "Catch": [{"ErrorEquals": ["States.ALL"],"Next": "HandleFailure","ResultPath": "$.error"}]
+    },
+    "CheckIntent": {
+      "Type": "Choice",
+      "Choices": [
+        {"Variable": "$.turnResult.Payload.slotsComplete","BooleanEquals": true,"Next": "SendReadback"},
+        {"Variable": "$.turnResult.Payload.intent","StringEquals": "confirm","Next": "Confirmed"}
+      ],
+      "Default": "WaitForOwner"
+    },
+    "SendReadback": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke.waitForTaskToken",
+      "Parameters": {
+        "FunctionName": "${WaitFunctionArn}",
+        "Payload": {
+          "sessionId.$": "$.sessionId",
+          "reply.$": "$.turnResult.Payload.reply",
+          "channel.$": "$.channel",
+          "channelAddress.$": "$.channelAddress",
+          "taskToken.$": "$$.Task.Token"
+        }
+      },
+      "HeartbeatSeconds": 1800,
+      "Next": "ReadInbox",
+      "Catch": [{"ErrorEquals": ["States.HeartbeatTimeout"],"Next": "ParkSession","ResultPath": "$.parkError"}]
+    },
+    "WaitForOwner": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke.waitForTaskToken",
+      "Parameters": {
+        "FunctionName": "${WaitFunctionArn}",
+        "Payload": {
+          "sessionId.$": "$.sessionId",
+          "reply.$": "$.turnResult.Payload.reply",
+          "channel.$": "$.channel",
+          "channelAddress.$": "$.channelAddress",
+          "taskToken.$": "$$.Task.Token"
+        }
+      },
+      "HeartbeatSeconds": 1800,
+      "Next": "ReadInbox",
+      "Catch": [{"ErrorEquals": ["States.HeartbeatTimeout"],"Next": "ParkSession","ResultPath": "$.parkError"}]
+    },
+    "Confirmed": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${ProvisionFunctionArn}",
+        "Payload.$": "$"
+      },
+      "ResultPath": "$.provisionResult",
+      "Next": "WaitForBilling",
+      "Catch": [{"ErrorEquals": ["States.ALL"],"Next": "HandleFailure","ResultPath": "$.error"}]
+    },
+    "WaitForBilling": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke.waitForTaskToken",
+      "Parameters": {
+        "FunctionName": "${WaitFunctionArn}",
+        "Payload": {
+          "sessionId.$": "$.sessionId",
+          "taskToken.$": "$$.Task.Token",
+          "waitKind": "billing"
+        }
+      },
+      "HeartbeatSeconds": 86400,
+      "Next": "WaitForNumber",
+      "Catch": [{"ErrorEquals": ["States.HeartbeatTimeout"],"Next": "HandleFailure","ResultPath": "$.error"}]
+    },
+    "WaitForNumber": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke.waitForTaskToken",
+      "Parameters": {
+        "FunctionName": "${WaitFunctionArn}",
+        "Payload": {
+          "sessionId.$": "$.sessionId",
+          "taskToken.$": "$$.Task.Token",
+          "waitKind": "number"
+        }
+      },
+      "HeartbeatSeconds": 86400,
+      "Next": "Live",
+      "Catch": [{"ErrorEquals": ["States.HeartbeatTimeout"],"Next": "HandleFailure","ResultPath": "$.error"}]
+    },
+    "Live": {
+      "Type": "Succeed"
+    },
+    "ParkSession": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${TurnFunctionArn}",
+        "Payload": {"sessionId.$": "$.sessionId","action": "park"}
+      },
+      "Next": "Parked",
+      "Catch": [{"ErrorEquals": ["States.ALL"],"Next": "Parked"}]
+    },
+    "Parked": {
+      "Type": "Wait",
+      "Seconds": 86400,
+      "Next": "HandleFailure"
+    },
+    "HandleFailure": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${TurnFunctionArn}",
+        "Payload": {"sessionId.$": "$.sessionId","action": "fail","error.$": "$.error"}
+      },
+      "Next": "Failed",
+      "Catch": [{"ErrorEquals": ["States.ALL"],"Next": "Failed"}]
+    },
+    "Failed": {
+      "Type": "Fail",
+      "Error": "OnboardingFailed",
+      "Cause": "Unrecoverable error — session marked failed, owner notified, ops alerted"
+    }
+  }
+}

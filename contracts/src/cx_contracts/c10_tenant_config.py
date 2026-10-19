@@ -1,30 +1,50 @@
-"""C10: Tenant config handed to the live agent."""
+"""C10 -- Tenant Config contract (frozen v1)."""
 from __future__ import annotations
+
+from typing import Any, Literal
+
 from pydantic import BaseModel, Field
-from .c03_slots import ServiceHours, Service, Address
+
+
+class DayHours(BaseModel):
+    open: str = "09:00"   # HH:MM
+    close: str = "17:00"
+    closed: bool = False
+
+
+class BusinessHours(BaseModel):
+    days: dict[str, DayHours] = Field(default_factory=dict)
+
+
+class ServiceEntry(BaseModel):
+    name: str
+    description: str = ""
+    price_type: Literal["fixed", "from", "range", "quote"] = "quote"
+    price_min: float | None = None
+    price_max: float | None = None
+    duration_minutes: int | None = None
+    deposit_required: bool = False
+    add_ons: list[str] = Field(default_factory=list)
+
 
 class EscalationConfig(BaseModel):
-    phone: str
-    instructions: str = ""
-    always_on: bool = False
+    phone: str = ""
+    transfer_phrase: str = "Let me transfer you."
+
 
 class TenantConfig(BaseModel):
     tenant_id: str
     business_name: str
-    vertical: str
-    owner_name: str
-    owner_mobile: str
-    services: list[Service] = Field(default_factory=list)
-    hours: ServiceHours
-    timezone: str
-    greeting: str
-    tone: str = "professional"
+    business_address: dict[str, Any] = Field(default_factory=dict)
+    timezone: str = "America/New_York"
     languages: list[str] = Field(default_factory=lambda: ["en"])
-    address: Address | None = None
-    escalation: EscalationConfig | None = None
-    approved_facts: dict[str, object] = Field(default_factory=dict)
-    research_subject_id: str | None = None
-    day_one_mode: bool = True
-    number_e164: str | None = None
-    ai_disclosure: str = "You've reached the AI assistant for {business_name}."
-    recording_notice: str = "This call may be recorded."
+    tone: Literal["professional", "friendly", "casual", "formal"] = "professional"
+    greeting: str
+    services: list[ServiceEntry] = Field(default_factory=list)
+    hours: BusinessHours = Field(default_factory=BusinessHours)
+    escalation: EscalationConfig = Field(default_factory=EscalationConfig)
+    booking_enabled: bool = False
+    calendar_connected: bool = False
+    ai_disclosure_in_greeting: bool = True
+    recording_notice_in_greeting: bool = True
+    version: int = 1
